@@ -24,6 +24,14 @@ void copyArray(char word1[] , char word2[])
     }
 
 }
+bool compare(Element a,Element b )
+{
+    if(a.r[0]==b.r[0])
+    {
+        return a.r[1] < b.r[1];
+    }
+    else return a.r[0] < b.r[0];
+}
 class SuffixArray{
 private:
     Element* array;
@@ -45,8 +53,9 @@ public:
     void Print() {
         for(int i=0 ; i<n ; i++)
         {
-            cout<< array[i].index;
+            cout<< array[i].index<<" ";
         }
+        cout<<endl;
     }
 };
 int main()
