@@ -1,5 +1,4 @@
 #include <iostream>
-#include <algorithm>
 using namespace std;
 
 class Element{
@@ -25,6 +24,15 @@ void copyArray(string word1 , char word2[])
     }
 
 }
+void copyArray(char word1[] , char word2[])
+{
+    int i=0;
+    while (word1[i-1]!='$'){
+        word2[i]=word1[i];
+        i++;
+    }
+
+}
 int compare(Element a,Element b )
 {
     if(a.r[0]==b.r[0])
@@ -34,6 +42,50 @@ int compare(Element a,Element b )
     }
     else if (a.r[0] < b.r[0]) return 1;
     else return 0;
+}
+
+void Merge(Element arr[], int l, int mid, int r)
+{
+    int n1 = mid - l + 1, n2 = r - mid;
+
+    Element L[n1], R[n2];
+
+    for (int i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+
+    for (int i = 0; i < n2; i++)
+        R[i] = arr[mid + 1 + i];
+
+    int i = 0, j = 0, k = l;
+
+    while(i < n1 && j < n2){
+        if (compare(L[i], R[j]))
+            arr[k] = L[i], i++;
+        else
+            arr[k] = R[j], j++;
+        k++;
+    }
+
+    while(i < n1)
+        arr[k] = L[i], k++, i++;
+
+    while(j < n2)
+        arr[k] = R[j], k++, j++;
+}
+
+// Function of Merge Sort.
+void merge_sort(Element arr[], int l, int r)
+{
+    if (l < r)
+    {
+        int mid = (l + r) / 2;
+
+        merge_sort(arr, l, mid);
+
+        merge_sort(arr, mid + 1, r);
+
+        Merge(arr, l, mid, r);
+    }
 }
 class SuffixArray{
 private:
@@ -61,7 +113,7 @@ public:
             }else array[i].r[1]=-1;
         }
 
-        sort(array , array+n , compare);    ///////////
+        merge_sort(array , 0 , n-1);
         int indArr[n];
 
         for(int j=4 ; j<n*2 ; j*=2)
@@ -91,8 +143,7 @@ public:
                 else array[i].r[1]=-1;
 
             }
-
-            sort(array , array+n , compare);
+            merge_sort(array , 0 , n-1);
 
         }
 
